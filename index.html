@@ -44,11 +44,20 @@
     <div id="viewDiv" style="height: 100%; width: 100%;"></div>
 
     <script>
+
+        // ESRI is blocking my GeoJSON URL from being loaded
+        // "been blocked by CORS policy"
+
         require(["esri/Map", "esri/views/MapView", "esri/layers/GeoJSONLayer", "esri/renderers/SimpleRenderer", "esri/symbols/SimpleMarkerSymbol"], 
         (Map, MapView, GeoJSONLayer, SimpleRenderer, SimpleMarkerSymbol) => {
-            const url = "https://arcg.is/P0zvu";
-            // const url = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson";
+            
+            // This is my geoJSON from AGOL but it won't load and gives me an error on the Preview console
+            //const url = "https://arcg.is/P0zvu";
 
+            // This link loads features onto my map
+            // const url = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson";
+            
+            const url = "https://arcg.is/0uCTqT1";
             const symbol = new SimpleMarkerSymbol({
                 style: "circle",
                 color: "red",
@@ -62,7 +71,10 @@
             const layer = new GeoJSONLayer({
                 url: url,
                 outFields: ["*"], // Ensure all fields are included
-                renderer: renderer // Apply the renderer to the layer
+                renderer: renderer, // Apply the renderer to the layer
+                fetchOptions: {
+                    mode: 'no-cors' // Set the request mode to no-cors
+                }
             });
 
             const map = new Map({
