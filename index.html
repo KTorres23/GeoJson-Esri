@@ -49,21 +49,21 @@
     <script>
         require(["esri/Map", "esri/views/MapView", "esri/layers/GeoJSONLayer"], 
         (Map, MapView, GeoJSONLayer) => {
-            const url = "https://arcg.is/0T5WmL";
+            const url = "https://arcg.is/P0zvu";
             
             const layer = new GeoJSONLayer({
                 url: url,
                 outFields: ["*"] // Ensure all fields are included
             });
             const map = new Map({
-                basemap: "streets-vector", // Use a public basemap
+                basemap: "topo-vector", // Use a public basemap
                 layers: [layer]
             });
             const view = new MapView({
                 container: "viewDiv",
-                map: map,
-                center: [-118.805, 34.027],
-                zoom: 13
+                center: [0, 0],
+                zoom: 2,
+                map: map
             });
         });
     </script>
