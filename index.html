@@ -44,14 +44,27 @@
     <div id="viewDiv" style="height: 100%; width: 100%;"></div>
 
     <script>
-        require(["esri/Map", "esri/views/MapView", "esri/layers/GeoJSONLayer"], 
-        (Map, MapView, GeoJSONLayer) => {
+        require(["esri/Map", "esri/views/MapView", "esri/layers/GeoJSONLayer", "esri/renderers/SimpleRenderer", "esri/symbols/SimpleMarkerSymbol"], 
+        (Map, MapView, GeoJSONLayer, SimpleRenderer, SimpleMarkerSymbol) => {
             const url = "https://arcg.is/P0zvu";
-            
+            // const url = "https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson";
+
+            const symbol = new SimpleMarkerSymbol({
+                style: "circle",
+                color: "red",
+                size: "8px"
+            });
+
+            const renderer = new SimpleRenderer({
+                symbol: symbol
+            });
+
             const layer = new GeoJSONLayer({
                 url: url,
-                outFields: ["*"] // Ensure all fields are included
+                outFields: ["*"], // Ensure all fields are included
+                renderer: renderer // Apply the renderer to the layer
             });
+
             const map = new Map({
                 basemap: "topo-vector", // Use a public basemap
                 layers: [layer]
@@ -61,6 +74,11 @@
                 center: [0, 0],
                 zoom: 2,
                 map: map
+            });
+            view.when(() => {
+                console.log("Map and View are ready");
+            }, (error) => {
+                console.error("Error: ", error);
             });
         });
     </script>
